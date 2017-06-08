@@ -6,7 +6,7 @@
       @after-leave="afterLeave"
     >
       <router-view
-        v-finger:swipe="throttle(swipe, 1800, { 'trailing': false })"
+        v-finger:swipe="throttle(swipe, (delay + 1000) / 2, { 'trailing': false })"
         class="page-container"
       ></router-view>
     </transition>
@@ -21,6 +21,7 @@
     name: 'app',
     data () {
       return {
+        delay: 650,
         transitionName: '',
         transitionEnded: true
       }
@@ -32,7 +33,7 @@
       afterLeave () {
         setTimeout(() => {
           this.transitionEnded = true
-        }, 800)
+        }, this.delay)
       },
       throttle (func, wait, options) {
         return throttle(func, wait, options)
@@ -55,6 +56,7 @@
         }
       },
       swipe (e) {
+        e.preventDefault()
         if (this.transitionEnded === true) {
           if (this.pageNum >= 0 && this.pageNum <= this.routePaths.length - 2 && e.direction === 'Up') {
             this.slideUp()
@@ -85,10 +87,10 @@
         this.$router.replace(this.routePaths[0])
       }
 
-      window.addEventListener('wheel', this.throttle(this.changePage, 1800, { 'trailing': false }))
+      window.addEventListener('wheel', this.throttle(this.changePage, this.delay + 1100, { 'trailing': false }))
     },
     destroyed () {
-      window.removeEventListener('wheel', this.throttle(this.changePage, 1800, { 'trailing': false }))
+      window.removeEventListener('wheel', this.throttle(this.changePage, this.delay + 1100, { 'trailing': false }))
     }
   }
 </script>
@@ -110,7 +112,7 @@
       align-items: center;
       color: #fff;
       font-size: 50px;
-      transition: transform 1s;
+      transition: transform 1s cubic-bezier(0.86, 0, 0.07, 1);
       transform: translateZ(0);
     }
 
