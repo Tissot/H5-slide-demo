@@ -38,30 +38,21 @@
       throttle (func, wait, options) {
         return throttle(func, wait, options)
       },
-      slideUp () {
-        this.transitionName = 'slide-up'
-        this.$router.push(this.routePaths[++this.pageNum])
-      },
-      slideDown () {
-        this.transitionName = 'slide-down'
-        this.$router.push(this.routePaths[--this.pageNum])
-      },
       changePage (e) {
         if (this.transitionEnded === true) {
           if (this.pageNum >= 0 && this.pageNum <= this.routePaths.length - 2 && e.deltaY > 0) {
-            this.slideUp()
+            this.$router.push(this.routePaths[++this.pageNum])
           } else if (this.pageNum >= 1 && this.pageNum <= this.routePaths.length && e.deltaY < 0) {
-            this.slideDown()
+            this.$router.push(this.routePaths[--this.pageNum])
           }
         }
       },
       swipe (e) {
-        e.preventDefault()
         if (this.transitionEnded === true) {
           if (this.pageNum >= 0 && this.pageNum <= this.routePaths.length - 2 && e.direction === 'Up') {
-            this.slideUp()
+            this.$router.push(this.routePaths[++this.pageNum])
           } else if (this.pageNum >= 1 && this.pageNum <= this.routePaths.length && e.direction === 'Down') {
-            this.slideDown()
+            this.$router.push(this.routePaths[--this.pageNum])
           }
         }
       }
@@ -80,6 +71,11 @@
       },
       pageNum () {
         return this.routePaths.indexOf(this.$route.path)
+      }
+    },
+    watch: {
+      '$route.path' (newPath, oldPath) {
+        this.transitionName = this.routePaths.indexOf(newPath) > this.routePaths.indexOf(oldPath) ? 'slide-up' : 'slide-down'
       }
     },
     mounted () {
