@@ -1,5 +1,5 @@
 <template>
-  <div id="not-found">
+  <div id="not-found" style="transition: 0s;">
     Page not found!
   </div>
 </template>

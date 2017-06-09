@@ -1,13 +1,13 @@
 <template>
   <div id="app">
-    <transition 
+    <transition
       :name="transitionName"
       @before-enter="beforeEnter"
       @after-leave="afterLeave"
     >
       <router-view
         v-finger:swipe="throttle(swipe, (delay + 1000) / 2, { 'trailing': false })"
-        class="page-container"
+        class="page"
       ></router-view>
     </transition>
   </div>
@@ -75,7 +75,14 @@
     },
     watch: {
       '$route.path' (newPath, oldPath) {
-        this.transitionName = this.routePaths.indexOf(newPath) > this.routePaths.indexOf(oldPath) ? 'slide-up' : 'slide-down'
+        let newPageNum = this.routePaths.indexOf(newPath)
+        let oldPageNum = this.routePaths.indexOf(oldPath)
+
+        if (newPageNum !== -1 && oldPageNum !== -1) {
+          this.transitionName = newPageNum > oldPageNum ? 'slide-up' : 'slide-down'
+        } else {
+          this.transitionName = ''
+        }
       }
     },
     mounted () {
@@ -97,7 +104,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    .page-container {
+    .page {
       position: fixed;
       top: 0;
       left: 0;
@@ -108,8 +115,8 @@
       align-items: center;
       color: #fff;
       font-size: 30px;
-      transition: transform 1s cubic-bezier(0.86, 0, 0.07, 1);
       transform: translateZ(0);
+      transition: transform 1s cubic-bezier(0.86, 0, 0.07, 1);
     }
 
     .slide-up-enter,
