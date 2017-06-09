@@ -14,6 +14,6 @@
 
 <style lang="less">
   #page0 {
-    background: linear-gradient(#6633FF, #3366FF);
+    background: linear-gradient(#7B68EE, #3366FF);
   }
 </style>
