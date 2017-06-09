@@ -41,18 +41,18 @@
       changePage (e) {
         if (this.transitionEnded === true) {
           if (this.pageNum >= 0 && this.pageNum <= this.routePaths.length - 2 && e.deltaY > 0) {
-            this.$router.push(this.routePaths[++this.pageNum])
+            this.$router.replace(this.routePaths[++this.pageNum])
           } else if (this.pageNum >= 1 && this.pageNum <= this.routePaths.length && e.deltaY < 0) {
-            this.$router.push(this.routePaths[--this.pageNum])
+            this.$router.replace(this.routePaths[--this.pageNum])
           }
         }
       },
       swipe (e) {
         if (this.transitionEnded === true) {
           if (this.pageNum >= 0 && this.pageNum <= this.routePaths.length - 2 && e.direction === 'Up') {
-            this.$router.push(this.routePaths[++this.pageNum])
+            this.$router.replace(this.routePaths[++this.pageNum])
           } else if (this.pageNum >= 1 && this.pageNum <= this.routePaths.length && e.direction === 'Down') {
-            this.$router.push(this.routePaths[--this.pageNum])
+            this.$router.replace(this.routePaths[--this.pageNum])
           }
         }
       }
@@ -107,7 +107,7 @@
       justify-content: center;
       align-items: center;
       color: #fff;
-      font-size: 50px;
+      font-size: 30px;
       transition: transform 1s cubic-bezier(0.86, 0, 0.07, 1);
       transform: translateZ(0);
     }
